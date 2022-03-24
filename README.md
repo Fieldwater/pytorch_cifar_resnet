@@ -14,7 +14,7 @@ model.load_state_dict(torch.load(model_path, map_location=device), strict=False)
 ```
 
 
-## How to reproduce the mdoel
+## How to reproduce the model
 There are two approaches .ipynb and .py file to train and reproduce our model.
 
 1. Directly use main.py to train model in the python environment with torch tools
