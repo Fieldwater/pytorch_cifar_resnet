@@ -60,12 +60,15 @@ def test(epoch):
             correct += predicted.eq(targets).sum().item()
 
     test_loss = test_loss/len(testloader)
+    test_acc = 100.*correct/total
     test_loss_history.append(test_loss)
-    print('Testing Loss: %.4f | Acc: %.4f' % (test_loss, 100.*correct/total))
+    test_acc_history.append(test_acc)
+    print('Testing Loss: %.4f | Acc: %.4f' % (test_loss, test_acc))
 
 
 if __name__ == "__main__":
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    print(device)
 
     # data load
     transform_train = transforms.Compose([
@@ -93,7 +96,6 @@ if __name__ == "__main__":
             'dog', 'frog', 'horse', 'ship', 'truck')
 
 
-    # training
     net = project1_model()
     print(count_parameters(net))
     net = net.to(device)
@@ -108,8 +110,9 @@ if __name__ == "__main__":
 
     train_loss_history = []
     test_loss_history = []
+    test_acc_history = []
 
-    num_epoch = 100
+    num_epoch = 80
     for epoch in range(num_epoch):
         train(epoch)
         test(epoch)
@@ -126,6 +129,13 @@ if __name__ == "__main__":
     plt.grid(True)
     plt.legend()
     plt.savefig("./loss_epoch.png")
+
+    plt.plot(range(num_epoch), test_acc_history, '-', linewidth=3, label='test accuracy')
+    plt.xlabel('epochs')
+    plt.ylabel('Accuracy')
+    plt.grid(True)
+    plt.legend()
+    plt.savefig("./acc_epoch.png")
 
     # save model
     model_path = "./project1_model.pt"
