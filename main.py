@@ -139,4 +139,4 @@ if __name__ == "__main__":
 
     # save model
     model_path = "./project1_model.pt"
-    torch.save(net.state_dict(), model_path)
+    torch.save(net.module.state_dict(), model_path)
